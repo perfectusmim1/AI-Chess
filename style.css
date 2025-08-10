@@ -1,0 +1,699 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* GPT‑5 / iOS esintili renk teması */
+    --bg-0: #f7f8ff;
+    --bg-1: #f3f7ff;
+    --card: rgba(255, 255, 255, 0.6);
+    --card-stroke: rgba(255, 255, 255, 0.5);
+    --text-strong: #1f2937;
+    --text-muted: #475569;
+    --brand-1: #ff8ec3;   /* pembe */
+    --brand-2: #ffd392;   /* şeftali */
+    --brand-3: #b69cff;   /* lavanta */
+    --brand-4: #8ec5ff;   /* gökyüzü */
+    --accent: #7c5cff;    /* vurgu */
+    --shadow-color: 35, 38, 59; /* rgb referansı */
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    min-height: 100vh;
+    color: var(--text-strong);
+    background: radial-gradient(1200px 800px at 10% -10%, #ffe5f2 0%, transparent 50%),
+                radial-gradient(1200px 800px at 110% 10%, #e8f1ff 0%, transparent 50%),
+                radial-gradient(1200px 800px at -10% 110%, #fff0d9 0%, transparent 45%),
+                radial-gradient(1200px 800px at 90% 100%, #efe8ff 0%, transparent 50%),
+                linear-gradient(180deg, var(--bg-0) 0%, var(--bg-1) 100%);
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Arka planı yumuşakça hareket ettiren blur renk lekeleri */
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    inset: -20% -10% -20% -10%;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(420px 320px at 15% 15%, rgba(255, 142, 195, 0.45), transparent 55%),
+                radial-gradient(520px 380px at 85% 25%, rgba(182, 156, 255, 0.45), transparent 55%),
+                radial-gradient(520px 380px at 20% 85%, rgba(255, 211, 146, 0.4), transparent 55%),
+                radial-gradient(520px 380px at 80% 90%, rgba(142, 197, 255, 0.45), transparent 55%);
+    filter: blur(50px) saturate(120%);
+    transform: translateZ(0);
+    animation: blobsFloat 28s ease-in-out infinite alternate;
+}
+
+body::after {
+    animation-duration: 36s;
+    animation-direction: alternate-reverse;
+    opacity: 0.75;
+}
+
+@keyframes blobsFloat {
+    0%   { transform: translate3d(0, 0, 0) scale(1); }
+    50%  { transform: translate3d(-2%, -1%, 0) scale(1.02); }
+    100% { transform: translate3d(2%, 1%, 0) scale(1.04); }
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 28px 20px 40px;
+}
+
+/* Header */
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--text-strong);
+}
+
+.header h1 {
+    font-size: 2.6rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+    background: linear-gradient(90deg, var(--brand-4), var(--brand-3), var(--brand-1));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.header p {
+    font-size: 1.05rem;
+    opacity: 0.85;
+    color: var(--text-muted);
+}
+
+/* Controls */
+.controls {
+    background: var(--card);
+    border-radius: 18px;
+    padding: 24px;
+    margin-bottom: 25px;
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    border: 1px solid var(--card-stroke);
+    box-shadow: 0 10px 30px rgba(var(--shadow-color), 0.10);
+    position: relative; /* dropdownların üstte kalması için konteyneri konumlandır */
+    z-index: 1500;
+}
+
+.player-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    gap: 20px;
+}
+
+.player-control {
+    flex: 1;
+    max-width: 400px;
+}
+
+.player-control h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--text-strong);
+}
+
+.vs-indicator {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: linear-gradient(135deg, var(--brand-1), var(--brand-3));
+    padding: 14px 22px;
+    border-radius: 999px;
+    border: none;
+    box-shadow: 0 6px 20px rgba(124, 92, 255, 0.25);
+}
+
+.model-select, .api-input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid rgba(99, 102, 241, 0.25);
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: box-shadow 0.25s ease, border-color 0.25s ease, transform 0.12s ease;
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(6px);
+}
+
+.model-select:focus, .api-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 6px rgba(124, 92, 255, 0.12);
+}
+
+.api-key-section {
+    margin-top: 10px;
+}
+
+.game-controls {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Buttons */
+.btn {
+    padding: 12px 22px;
+    border: none;
+    border-radius: 14px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.25s ease, background 0.25s ease;
+    letter-spacing: 0.2px;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px rgba(var(--shadow-color), 0.18);
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--brand-4) 0%, var(--brand-3) 40%, var(--brand-1) 100%);
+    color: #ffffff;
+    box-shadow: 0 8px 24px rgba(124, 92, 255, 0.25);
+}
+
+.btn-secondary {
+    background: rgba(15, 23, 42, 0.7);
+    color: #ffffff;
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #ff6b6b, #f59e0b);
+    color: #ffffff;
+}
+
+/* Game Area */
+.game-area {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr; /* ortada içerik kadar (tahta), kenarlar eşit */
+    gap: 25px;
+    align-items: start;
+    position: relative;
+    z-index: 1;
+}
+
+@media (max-width: 1200px) {
+    .game-area {
+        grid-template-columns: 1fr;
+        justify-items: center;
+    }
+}
+
+/* Game Info */
+.game-info {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 20px;
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    border: 1px solid var(--card-stroke);
+    box-shadow: 0 8px 24px rgba(var(--shadow-color), 0.10);
+}
+
+.game-info > div {
+    margin-bottom: 12px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: linear-gradient(180deg, rgba(124,92,255,0.08), rgba(124,92,255,0.04));
+    font-weight: 600;
+    color: var(--text-strong);
+}
+
+.game-info > div:last-child {
+    margin-bottom: 0;
+}
+
+/* Chess Board */
+.chess-board {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    width: 512px;
+    height: 512px;
+    border: 1px solid rgba(15, 23, 42, 0.2);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(var(--shadow-color), 0.18);
+    background: linear-gradient(180deg, rgba(255,255,255,0.35), rgba(255,255,255,0.15));
+    backdrop-filter: blur(6px);
+    justify-self: center; /* kendi grid sütununda ortala */
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.chess-square {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.4rem;
+    cursor: default; /* kullanıcı hamlesi kapalı */
+    transition: transform 0.12s ease, background 0.25s ease, box-shadow 0.25s ease;
+    position: relative;
+}
+
+.chess-square.white {
+    background: linear-gradient(180deg, #ffffff, #f0f4ff);
+}
+
+.chess-square.black {
+    background: linear-gradient(180deg, #dbe4ff, #c7d2fe);
+}
+
+.chess-square.highlight {
+    background: radial-gradient(circle at 50% 50%, rgba(124, 92, 255, 0.25), transparent 60%) !important;
+    box-shadow: inset 0 0 0 2px rgba(124, 92, 255, 0.7);
+}
+
+.chess-square.possible-move {
+    background: radial-gradient(circle at 50% 50%, rgba(56, 189, 248, 0.25), transparent 60%) !important;
+}
+
+.chess-square.last-move {
+    background: radial-gradient(circle at 50% 50%, rgba(245, 158, 11, 0.25), transparent 60%) !important;
+}
+
+.chess-piece {
+    transition: transform 0.16s ease;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.25));
+}
+
+.chess-piece:hover {
+    transform: translateY(-1px) scale(1.06);
+}
+
+/* Move History */
+.move-history {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 20px;
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    border: 1px solid var(--card-stroke);
+    box-shadow: 0 8px 24px rgba(var(--shadow-color), 0.10);
+    max-height: 512px;
+    overflow-y: auto;
+}
+
+.move-history h4 {
+    font-size: 1.05rem;
+    font-weight: 800;
+    margin-bottom: 14px;
+    color: var(--text-strong);
+    text-align: center;
+}
+
+.moves-list {
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+}
+
+.move-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 12px;
+    margin-bottom: 4px;
+    border-radius: 10px;
+    background: linear-gradient(180deg, rgba(124,92,255,0.07), rgba(124,92,255,0.04));
+}
+
+.move-number {
+    font-weight: 700;
+    color: var(--accent);
+}
+
+/* Thinking Indicator */
+.thinking-indicator {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--card);
+    border-radius: 16px;
+    padding: 22px 30px;
+    display: none;
+    align-items: center;
+    gap: 14px;
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    border: 1px solid var(--card-stroke);
+    box-shadow: 0 16px 48px rgba(var(--shadow-color), 0.22);
+    z-index: 1000;
+}
+
+.thinking-indicator.show {
+    display: flex;
+    animation: fadeIn 200ms ease-out;
+}
+
+.spinner {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, var(--brand-4), var(--brand-3), var(--brand-1), var(--brand-2), var(--brand-4));
+    -webkit-mask: radial-gradient(farthest-side, transparent 62%, #000 63%);
+    mask: radial-gradient(farthest-side, transparent 62%, #000 63%);
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translate(-50%, -54%); }
+    to   { opacity: 1; transform: translate(-50%, -50%); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+    
+    .header h1 {
+        font-size: 2rem;
+    }
+    
+    .player-section {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .vs-indicator {
+        order: 2;
+        font-size: 1.2rem;
+        padding: 10px 20px;
+    }
+    
+    .chess-board {
+        width: 320px;
+        height: 320px;
+    }
+    
+    .chess-square {
+        width: 40px;
+        height: 40px;
+        font-size: 1.8rem;
+    }
+    
+    .game-area {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    /* Mobile searchable select adjustments */
+    .model-search-dropdown {
+        max-height: 250px;
+    }
+    
+    .model-list {
+        max-height: 190px;
+    }
+    
+    .model-item {
+        padding: 10px 12px;
+    }
+    
+    .model-title {
+        font-size: 0.85rem;
+    }
+    
+    .model-id {
+        font-size: 0.7rem;
+    }
+}
+
+/* Loading Spinner for Button */
+.loading-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: buttonSpin 1s linear infinite;
+}
+
+@keyframes buttonSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Searchable Select Component */
+.searchable-select {
+    position: relative;
+    width: 100%;
+    z-index: 10; /* bileşen üstte kalsın */
+}
+
+.selected-model {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid rgba(99, 102, 241, 0.25);
+    border-radius: 12px;
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(8px);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.12s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    min-height: 48px;
+}
+
+.selected-model:hover {
+    border-color: var(--accent);
+    box-shadow: 0 8px 24px rgba(124, 92, 255, 0.12);
+}
+
+.selected-model.disabled {
+    background-color: #f7fafc;
+    color: #a0aec0;
+    cursor: not-allowed;
+}
+
+.selected-model.disabled:hover {
+    border-color: #e2e8f0;
+}
+
+.model-name {
+    flex: 1;
+    text-align: left;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dropdown-arrow {
+    color: var(--accent);
+    font-size: 0.85rem;
+    transition: transform 0.25s ease;
+}
+
+.selected-model.open .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+.model-search-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(255,255,255,0.92);
+    border: 1px solid rgba(124, 92, 255, 0.35);
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 16px 40px rgba(var(--shadow-color), 0.18);
+    z-index: 3000; /* tüm kartların üstünde */
+    max-height: 300px;
+    overflow: hidden;
+    transform-origin: top center;
+    animation: dropdownIn 160ms ease-out;
+}
+
+@keyframes dropdownIn {
+    from { opacity: 0; transform: scaleY(0.96); }
+    to   { opacity: 1; transform: scaleY(1); }
+}
+
+/* Kapanış animasyonu */
+.model-search-dropdown.closing {
+    animation: dropdownOut 140ms ease-in forwards;
+    pointer-events: none;
+}
+
+@keyframes dropdownOut {
+    from { opacity: 1; transform: scaleY(1); }
+    to   { opacity: 0; transform: scaleY(0.96); }
+}
+
+.model-search-input {
+    width: 100%;
+    padding: 12px 15px;
+    border: none;
+    border-bottom: 1px solid rgba(124, 92, 255, 0.25);
+    outline: none;
+    font-size: 0.92rem;
+    background: rgba(248, 250, 255, 0.8);
+}
+
+.model-search-input:focus {
+    background: #ffffff;
+    border-bottom-color: var(--accent);
+}
+
+.model-search-input:disabled {
+    background: #f7fafc;
+    color: #a0aec0;
+}
+
+.model-list {
+    max-height: 240px;
+    overflow-y: auto;
+}
+
+.model-item {
+    padding: 12px 15px;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+    transition: background 0.2s ease, padding-left 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.model-item:hover {
+    background: linear-gradient(180deg, rgba(124,92,255,0.06), rgba(124,92,255,0.03));
+    border-left: 3px solid var(--accent);
+    padding-left: 12px;
+}
+
+.model-item:last-child {
+    border-bottom: none;
+}
+
+.model-item.selected {
+    background: linear-gradient(135deg, var(--brand-4), var(--brand-3));
+    color: white;
+}
+
+.model-item.selected:hover {
+    background: linear-gradient(135deg, #789eff, #a08dff);
+}
+
+.model-title {
+    font-weight: 600;
+    font-size: 0.92rem;
+}
+
+.model-id {
+    font-size: 0.75rem;
+    color: #6b7280;
+    font-family: 'Courier New', monospace;
+}
+
+.model-item.selected .model-id {
+    color: rgba(255,255,255,0.85);
+}
+
+.no-models {
+    padding: 20px 15px;
+    text-align: center;
+    color: #6b7280;
+    font-style: italic;
+}
+
+/* Model Select Improvements */
+.model-select:disabled {
+    background-color: #f7fafc;
+    color: #a0aec0;
+    cursor: not-allowed;
+}
+
+.api-key-section {
+    position: relative;
+}
+
+.api-input:focus ~ .btn {
+    border-color: #667eea;
+}
+
+/* Enhanced Button States */
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.btn-secondary:disabled {
+    background: #cbd5e0;
+}
+
+/* Success and Error States */
+.load-text[style*="color: rgb(72, 187, 120)"] {
+    font-weight: 600;
+}
+
+.load-text[style*="color: rgb(229, 62, 62)"] {
+    font-weight: 600;
+}
+
+/* Improved Control Spacing */
+.api-key-section .btn {
+    font-size: 0.9rem;
+    padding: 10px 20px;
+}
+
+/* Scrollbar Styling */
+.moves-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.moves-list::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.1);
+    border-radius: 3px;
+}
+
+.moves-list::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--brand-4), var(--brand-3));
+    border-radius: 3px;
+}
+
+.moves-list::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #7ab0ff, #9a8bff);
+}
+
+/* Hareket azaltma tercihi olan kullanıcılar için animasyonları sınırlayın */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}

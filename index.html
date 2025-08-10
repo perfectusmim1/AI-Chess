@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI vs AI Satranç</title>
+    <link rel="icon" href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQEAYAAABPYyMiAAAABmJLR0T///////8JWPfcAAAACXBIWXMAAABIAAAASABGyWs+AAAAF0lEQVRIx2NgGAWjYBSMglEwCkbBSAcACAABAAGBmnwAAAAASUVORK5CYII=" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>AI vs AI Satranç Turnuvası</h1>
+            <p>İki yapay zeka birbirleriyle satranç oynar</p>
+        </header>
+
+        <div class="controls">
+            <div class="player-section">
+                <div class="player-control">
+                    <h3>Beyaz Takım (AI)</h3>
+                    <div class="searchable-select" id="whiteModelContainer">
+                        <div class="selected-model" id="whiteSelectedModel">
+                            <span class="model-name">Önce API Key Girin...</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </div>
+                        <div class="model-search-dropdown" id="whiteModelDropdown" style="display: none;">
+                            <input type="text" class="model-search-input" placeholder="Model ara..." disabled>
+                            <div class="model-list" id="whiteModelList">
+                                <div class="no-models">Önce modelleri yükleyin</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="api-key-section">
+                        <input type="password" id="apiKey" placeholder="OpenRouter API Key" class="api-input">
+                        <button id="loadModels" class="btn btn-secondary" style="margin-top: 10px; width: 100%;" disabled>
+                            <span class="load-text">Modelleri Yükle</span>
+                            <span class="loading-spinner" style="display: none;">Yükleniyor...</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="vs-indicator">VS</div>
+
+                <div class="player-control">
+                    <h3>Siyah Takım (AI)</h3>
+                    <div class="searchable-select" id="blackModelContainer">
+                        <div class="selected-model" id="blackSelectedModel">
+                            <span class="model-name">Önce API Key Girin...</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </div>
+                        <div class="model-search-dropdown" id="blackModelDropdown" style="display: none;">
+                            <input type="text" class="model-search-input" placeholder="Model ara..." disabled>
+                            <div class="model-list" id="blackModelList">
+                                <div class="no-models">Önce modelleri yükleyin</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-controls">
+                <button id="startGame" class="btn btn-primary">Oyunu Başlat</button>
+                <button id="pauseGame" class="btn btn-secondary" disabled>Oyunu Duraklat</button>
+                <button id="resetGame" class="btn btn-danger">Yeniden Başlat</button>
+            </div>
+        </div>
+
+        <div class="game-area">
+            <div class="game-info left-info">
+                <div class="current-player">
+                    <span id="currentPlayerText">Sıra: Beyaz (AI)</span>
+                </div>
+                <div class="game-status">
+                    <span id="gameStatusText">Oyun başlamadı</span>
+                </div>
+                <div class="move-counter">
+                    <span id="moveCountText">Hamle: 0</span>
+                </div>
+            </div>
+
+            <div class="chess-board" id="chessBoard">
+                <!-- Satranç tahtası JavaScript ile oluşturulacak -->
+            </div>
+
+            <div class="move-history right-history">
+                <h4>Hamle Geçmişi</h4>
+                <div id="moveHistory" class="moves-list">
+                    <!-- Hamleler buraya eklenecek -->
+                </div>
+            </div>
+        </div>
+
+        <div class="thinking-indicator" id="thinkingIndicator">
+            <div class="spinner"></div>
+            <span id="thinkingText">AI düşünüyor...</span>
+            <div class="thinking-details" id="thinkingDetails"></div>
+        </div>
+    </div>
+
+    <script src="chess-logic.js"></script>
+    <script src="ai-integration.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
